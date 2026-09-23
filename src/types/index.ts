@@ -78,7 +78,7 @@ export interface Listing {
     whatsapp: string;
   };
   images: string[];
-  mapPosition: { x: number; y: number }; // normalized 0-100
+  coordinates: { lat: number; lng: number }; // real GPS coordinates
   titleNotes?: string;
   nearbyLandmarks: string[];
   tags: string[];
