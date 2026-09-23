@@ -40,7 +40,7 @@ export default function App() {
   }, [selectedListingId]);
 
   const handleToggleSave = useCallback((id: string) => {
-    const nowSaved = toggleSaved(id);
+    toggleSaved(id);
     setSavedIds(getSavedIds());
   }, []);
 
@@ -87,7 +87,6 @@ export default function App() {
     return count;
   }, [filters]);
 
-  // Detail view
   if (view === 'detail' && selectedListing) {
     return (
       <ListingDetail
@@ -103,7 +102,6 @@ export default function App() {
     );
   }
 
-  // Calculator view
   if (view === 'calculator') {
     return (
       <Calculator
@@ -115,51 +113,51 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-[1920px] mx-auto px-4 py-3">
-          <div className="flex items-center justify-between gap-4">
+    <div className="min-h-screen bg-stone-50">
+      {/* ============ HEADER ============ */}
+      <header className="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div className="max-w-[1920px] mx-auto px-6 lg:px-10 py-5">
+          <div className="flex items-center justify-between gap-6">
             {/* Logo */}
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-lg flex items-center justify-center">
-                <Home className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="w-11 h-11 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl flex items-center justify-center shadow-sm shadow-emerald-200">
+                <Home className="w-5 h-5 text-white" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-lg font-bold text-gray-900 leading-tight">SurinameProperty</h1>
-                <p className="text-[10px] text-gray-500 -mt-0.5">Zoek uw droomwoning</p>
+                <h1 className="text-xl font-bold text-stone-900 leading-tight tracking-tight">SurinameProperty</h1>
+                <p className="text-xs text-stone-500 mt-0.5">Zoek uw droomwoning</p>
               </div>
             </div>
 
             {/* Search */}
-            <div className="flex-1 max-w-xl">
+            <div className="flex-1 max-w-2xl">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
                 <input
                   type="text"
-                  placeholder="Zoek op locatie, adres, of listing ID..."
+                  placeholder="Zoek op locatie, adres, buurt of listing ID..."
                   value={filters.searchQuery}
                   onChange={(e) => setFilters(f => ({ ...f, searchQuery: e.target.value }))}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full pl-12 pr-5 py-3.5 bg-stone-50 border border-stone-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all placeholder:text-stone-400"
                 />
               </div>
             </div>
 
             {/* Nav */}
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
               {/* Currency toggle */}
               <button
                 onClick={() => setFilters(f => ({ ...f, currency: f.currency === 'SRD' ? 'USD' : 'SRD' }))}
-                className="hidden sm:flex items-center gap-1 px-3 py-2 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                className="hidden sm:flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors text-stone-700"
               >
                 {filters.currency}
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-3.5 h-3.5" />
               </button>
 
               {/* Calculator */}
               <button
                 onClick={() => setView('calculator')}
-                className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                className="p-3 text-stone-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"
                 title="Calculator"
               >
                 <CalcIcon className="w-5 h-5" />
@@ -168,12 +166,12 @@ export default function App() {
               {/* Saved */}
               <button
                 onClick={() => setView(view === 'saved' ? 'listings' : 'saved')}
-                className={`relative p-2 rounded-lg transition-colors ${view === 'saved' ? 'text-rose-600 bg-rose-50' : 'text-gray-600 hover:text-rose-600 hover:bg-rose-50'}`}
+                className={`relative p-3 rounded-xl transition-colors ${view === 'saved' ? 'text-rose-600 bg-rose-50' : 'text-stone-500 hover:text-rose-600 hover:bg-rose-50'}`}
                 title="Saved properties"
               >
                 <Heart className="w-5 h-5" fill={view === 'saved' ? 'currentColor' : 'none'} />
                 {savedIds.length > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-rose-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                     {savedIds.length}
                   </span>
                 )}
@@ -182,7 +180,7 @@ export default function App() {
               {/* Filters toggle */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`relative flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${showFilters ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                className={`relative flex items-center gap-2 px-5 py-3 text-sm font-semibold rounded-xl transition-all ${showFilters ? 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}`}
               >
                 <SlidersHorizontal className="w-4 h-4" />
                 <span className="hidden sm:inline">Filters</span>
@@ -197,19 +195,19 @@ export default function App() {
         </div>
       </header>
 
-      {/* Mode Toggle Bar */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-[1920px] mx-auto px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      {/* ============ MODE BAR ============ */}
+      <div className="bg-white border-b border-stone-100">
+        <div className="max-w-[1920px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
             {/* Buy/Rent toggle */}
-            <div className="flex bg-gray-100 rounded-lg p-0.5">
+            <div className="flex bg-stone-100 rounded-xl p-1">
               {(['all', 'sale', 'rent'] as const).map((mode) => (
                 <button
                   key={mode}
                   onClick={() => setFilters(f => ({ ...f, mode }))}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${filters.mode === mode ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
+                  className={`px-5 py-2 text-sm font-semibold rounded-lg transition-all ${filters.mode === mode ? 'bg-white text-emerald-700 shadow-sm' : 'text-stone-600 hover:text-stone-800'}`}
                 >
-                  {mode === 'all' ? 'All' : mode === 'sale' ? 'Koop' : 'Huur'}
+                  {mode === 'all' ? 'Alle' : mode === 'sale' ? 'Koop' : 'Huur'}
                 </button>
               ))}
             </div>
@@ -217,19 +215,19 @@ export default function App() {
             {/* Currency mobile */}
             <button
               onClick={() => setFilters(f => ({ ...f, currency: f.currency === 'SRD' ? 'USD' : 'SRD' }))}
-              className="sm:hidden px-2 py-1.5 text-xs font-medium bg-gray-100 rounded-lg"
+              className="sm:hidden px-3 py-2 text-sm font-semibold bg-stone-100 rounded-xl"
             >
               {filters.currency}
             </button>
           </div>
 
           {/* Layout controls */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">{filteredListings.length} resultaten</span>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-stone-500 font-medium">{filteredListings.length} resultaten</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="text-xs bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="text-sm bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 font-medium text-stone-700"
             >
               <option value="newest">Nieuwste</option>
               <option value="price-asc">Prijs ↑</option>
@@ -239,22 +237,22 @@ export default function App() {
             </select>
 
             {/* Layout mode - desktop only */}
-            <div className="hidden lg:flex bg-gray-100 rounded-lg p-0.5">
-              <button onClick={() => setLayoutMode('split')} className={`p-1.5 rounded-md ${layoutMode === 'split' ? 'bg-white shadow-sm' : ''}`}>
-                <Grid3X3 className="w-3.5 h-3.5" />
+            <div className="hidden lg:flex bg-stone-100 rounded-xl p-1">
+              <button onClick={() => setLayoutMode('split')} className={`p-2.5 rounded-lg transition-all ${layoutMode === 'split' ? 'bg-white shadow-sm' : ''}`} title="Split view">
+                <Grid3X3 className="w-4 h-4" />
               </button>
-              <button onClick={() => setLayoutMode('list')} className={`p-1.5 rounded-md ${layoutMode === 'list' ? 'bg-white shadow-sm' : ''}`}>
-                <List className="w-3.5 h-3.5" />
+              <button onClick={() => setLayoutMode('list')} className={`p-2.5 rounded-lg transition-all ${layoutMode === 'list' ? 'bg-white shadow-sm' : ''}`} title="List view">
+                <List className="w-4 h-4" />
               </button>
-              <button onClick={() => setLayoutMode('map')} className={`p-1.5 rounded-md ${layoutMode === 'map' ? 'bg-white shadow-sm' : ''}`}>
-                <MapPin className="w-3.5 h-3.5" />
+              <button onClick={() => setLayoutMode('map')} className={`p-2.5 rounded-lg transition-all ${layoutMode === 'map' ? 'bg-white shadow-sm' : ''}`} title="Map view">
+                <MapPin className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Filter Panel */}
+      {/* ============ FILTER PANEL ============ */}
       {showFilters && (
         <FilterPanel
           filters={filters}
@@ -264,22 +262,22 @@ export default function App() {
         />
       )}
 
-      {/* Main Content */}
+      {/* ============ MAIN CONTENT ============ */}
       <div className="max-w-[1920px] mx-auto">
         {/* Mobile: Tab switcher */}
-        <div className="lg:hidden flex border-b border-gray-200 bg-white">
+        <div className="lg:hidden flex border-b border-stone-200 bg-white">
           <button
             onClick={() => setLayoutMode('list')}
-            className={`flex-1 py-2.5 text-xs font-medium text-center border-b-2 transition-colors ${layoutMode !== 'map' ? 'border-emerald-600 text-emerald-700' : 'border-transparent text-gray-500'}`}
+            className={`flex-1 py-4 text-sm font-semibold text-center border-b-2 transition-colors ${layoutMode !== 'map' ? 'border-emerald-600 text-emerald-700' : 'border-transparent text-stone-500'}`}
           >
-            <List className="w-4 h-4 inline mr-1" />
+            <List className="w-4 h-4 inline mr-2" />
             Lijst
           </button>
           <button
             onClick={() => setLayoutMode('map')}
-            className={`flex-1 py-2.5 text-xs font-medium text-center border-b-2 transition-colors ${layoutMode === 'map' ? 'border-emerald-600 text-emerald-700' : 'border-transparent text-gray-500'}`}
+            className={`flex-1 py-4 text-sm font-semibold text-center border-b-2 transition-colors ${layoutMode === 'map' ? 'border-emerald-600 text-emerald-700' : 'border-transparent text-stone-500'}`}
           >
-            <MapPin className="w-4 h-4 inline mr-1" />
+            <MapPin className="w-4 h-4 inline mr-2" />
             Kaart
           </button>
         </div>
@@ -287,34 +285,37 @@ export default function App() {
         {/* Desktop split layout */}
         <div className={`flex ${layoutMode === 'map' ? 'hidden lg:flex' : ''}`}>
           {/* Listings panel */}
-          <div className={`${layoutMode === 'split' ? 'lg:w-1/2 xl:w-[55%]' : layoutMode === 'list' ? 'w-full' : 'hidden lg:block lg:w-1/2 xl:w-[55%]'} overflow-y-auto`} style={{ maxHeight: 'calc(100vh - 160px)' }}>
+          <div
+            className={`${layoutMode === 'split' ? 'lg:w-1/2 xl:w-[55%]' : layoutMode === 'list' ? 'w-full' : 'hidden lg:block lg:w-1/2 xl:w-[55%]'} overflow-y-auto`}
+            style={{ maxHeight: 'calc(100vh - 180px)' }}
+          >
             {view === 'saved' && (
-              <div className="px-4 py-3 bg-rose-50 border-b border-rose-100">
-                <h2 className="text-sm font-semibold text-rose-800">
-                  <Heart className="w-4 h-4 inline mr-1" fill="currentColor" />
+              <div className="px-8 py-5 bg-rose-50 border-b border-rose-100">
+                <h2 className="text-base font-semibold text-rose-800 flex items-center gap-2">
+                  <Heart className="w-5 h-5" fill="currentColor" />
                   Opgeslagen woningen ({savedIds.length})
                 </h2>
               </div>
             )}
 
             {filteredListings.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 px-4">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <Search className="w-8 h-8 text-gray-400" />
+              <div className="flex flex-col items-center justify-center py-32 px-8">
+                <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center mb-6">
+                  <Search className="w-10 h-10 text-stone-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-1">Geen resultaten</h3>
-                <p className="text-sm text-gray-500 text-center mb-4">
-                  Probeer andere filters of zoektermen
+                <h3 className="text-xl font-semibold text-stone-700 mb-2">Geen resultaten</h3>
+                <p className="text-base text-stone-500 text-center mb-6 max-w-sm">
+                  Probeer andere filters of zoektermen om meer woningen te vinden
                 </p>
                 <button
                   onClick={() => setFilters(getDefaultFilters())}
-                  className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition-colors"
+                  className="px-6 py-3 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
                 >
                   Reset filters
                 </button>
               </div>
             ) : (
-              <div className={`grid gap-3 p-3 ${layoutMode === 'map' ? 'lg:grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'}`}>
+              <div className={`grid gap-5 p-6 ${layoutMode === 'map' ? 'lg:grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'}`}>
                 {filteredListings.map((listing) => (
                   <ListingCard
                     key={listing.id}
@@ -332,8 +333,11 @@ export default function App() {
           </div>
 
           {/* Map panel */}
-          <div className={`${layoutMode === 'split' ? 'lg:w-1/2 xl:w-[45%]' : layoutMode === 'map' ? 'w-full' : 'hidden lg:block lg:w-1/2 xl:w-[45%]'} sticky top-[120px]`} style={{ height: 'calc(100vh - 160px)' }}>
-            <div className="p-3 h-full">
+          <div
+            className={`${layoutMode === 'split' ? 'lg:w-1/2 xl:w-[45%]' : layoutMode === 'map' ? 'w-full' : 'hidden lg:block lg:w-1/2 xl:w-[45%]'} sticky top-[140px]`}
+            style={{ height: 'calc(100vh - 180px)' }}
+          >
+            <div className="p-6 h-full">
               <SurinameMap
                 listings={filteredListings}
                 selectedId={hoveredPinId || selectedListingId}
@@ -352,7 +356,7 @@ export default function App() {
   );
 }
 
-// Listing Card Component
+// ============ LISTING CARD ============
 interface ListingCardProps {
   listing: Listing;
   currency: Currency;
@@ -386,40 +390,46 @@ function ListingCard({ listing, currency, isSaved, isSelected, onSelect, onToggl
 
   return (
     <div
-      className={`group bg-white rounded-xl border transition-all duration-200 cursor-pointer hover:shadow-lg ${isSelected ? 'border-emerald-400 shadow-md ring-1 ring-emerald-200' : 'border-gray-200 hover:border-emerald-200'}`}
+      className={`group bg-white rounded-2xl border transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-0.5 ${isSelected ? 'border-emerald-400 shadow-lg ring-2 ring-emerald-100' : 'border-stone-200 hover:border-emerald-200'}`}
       onClick={onSelect}
       onMouseEnter={() => onHover(listing.id)}
       onMouseLeave={() => onHover(null)}
     >
       {/* Image */}
-      <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl">
+      <div className="relative aspect-[16/11] overflow-hidden rounded-t-2xl">
         <img
           src={listing.images[0]}
           alt={listing.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
         {/* Status badge */}
-        <div className={`absolute top-2 left-2 ${statusColors[listing.status]} text-white text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1`}>
+        <div className={`absolute top-4 left-4 ${statusColors[listing.status]} text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm`}>
           {statusIcons[listing.status]}
           {listing.status}
         </div>
+
         {/* Mode badge */}
-        <div className={`absolute top-2 right-10 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full ${listing.mode === 'sale' ? 'bg-emerald-600' : 'bg-violet-600'}`}>
-          {listing.mode === 'sale' ? 'Koop' : 'Huur'}
+        <div className={`absolute top-4 right-14 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm ${listing.mode === 'sale' ? 'bg-emerald-600' : 'bg-violet-600'}`}>
+          {listing.mode === 'sale' ? 'Te Koop' : 'Te Huur'}
         </div>
+
         {/* Save button */}
         <button
           onClick={(e) => { e.stopPropagation(); onToggleSave(); }}
-          className={`absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all ${isSaved ? 'bg-rose-500 text-white' : 'bg-white/80 text-gray-600 hover:bg-rose-500 hover:text-white'}`}
+          className={`absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm ${isSaved ? 'bg-rose-500 text-white' : 'bg-white/90 backdrop-blur-sm text-stone-600 hover:bg-rose-500 hover:text-white'}`}
         >
-          <Heart className="w-3.5 h-3.5" fill={isSaved ? 'currentColor' : 'none'} />
+          <Heart className="w-4 h-4" fill={isSaved ? 'currentColor' : 'none'} />
         </button>
+
         {/* Tags */}
         {listing.tags.length > 0 && (
-          <div className="absolute bottom-2 left-2 flex gap-1">
+          <div className="absolute bottom-4 left-4 flex gap-2">
             {listing.tags.slice(0, 2).map(tag => (
-              <span key={tag} className="bg-white/90 backdrop-blur-sm text-[9px] font-medium text-gray-700 px-1.5 py-0.5 rounded">
+              <span key={tag} className="bg-white/95 backdrop-blur-sm text-xs font-medium text-stone-700 px-2.5 py-1 rounded-full shadow-sm">
                 {tag}
               </span>
             ))}
@@ -428,63 +438,63 @@ function ListingCard({ listing, currency, isSaved, isSelected, onSelect, onToggl
       </div>
 
       {/* Content */}
-      <div className="p-3">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="text-sm font-semibold text-gray-900 line-clamp-1">{listing.title}</h3>
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <h3 className="text-lg font-bold text-stone-900 line-clamp-1 leading-snug">{listing.title}</h3>
         </div>
-        
-        <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
-          <MapPin className="w-3 h-3 shrink-0" />
+
+        <div className="flex items-center gap-1.5 text-sm text-stone-500 mb-4">
+          <MapPin className="w-4 h-4 shrink-0" />
           <span className="truncate">{listing.neighborhood}, {listing.district}</span>
         </div>
 
-        <div className="flex items-baseline gap-1 mb-2">
-          <span className="text-lg font-bold text-emerald-700">
+        <div className="flex items-baseline gap-1.5 mb-4">
+          <span className="text-2xl font-bold text-emerald-700 tracking-tight">
             {formatPrice(listing.price, listing.currency, currency)}
           </span>
-          {listing.mode === 'rent' && <span className="text-xs text-gray-500">/maand</span>}
+          {listing.mode === 'rent' && <span className="text-sm text-stone-500">/maand</span>}
           {listing.currency !== currency && (
-            <span className="text-[10px] text-gray-400 ml-1">
+            <span className="text-xs text-stone-400 ml-2">
               ({formatPrice(listing.price, listing.currency)})
             </span>
           )}
         </div>
 
         {/* Details */}
-        <div className="flex items-center gap-3 text-xs text-gray-600">
+        <div className="flex items-center gap-5 text-sm text-stone-600 pt-4 border-t border-stone-100">
           {listing.bedrooms > 0 && (
-            <span className="flex items-center gap-0.5">
-              <Bed className="w-3 h-3" />
-              {listing.bedrooms}
+            <span className="flex items-center gap-1.5">
+              <Bed className="w-4 h-4 text-stone-400" />
+              <span className="font-medium">{listing.bedrooms}</span>
             </span>
           )}
           {listing.bathrooms > 0 && (
-            <span className="flex items-center gap-0.5">
-              <Bath className="w-3 h-3" />
-              {listing.bathrooms}
+            <span className="flex items-center gap-1.5">
+              <Bath className="w-4 h-4 text-stone-400" />
+              <span className="font-medium">{listing.bathrooms}</span>
             </span>
           )}
           {listing.livingArea > 0 && (
-            <span className="flex items-center gap-0.5">
-              <Maximize className="w-3 h-3" />
-              {listing.livingArea}m²
+            <span className="flex items-center gap-1.5">
+              <Maximize className="w-4 h-4 text-stone-400" />
+              <span className="font-medium">{listing.livingArea}m²</span>
             </span>
           )}
           {listing.landSize > 0 && (
-            <span className="flex items-center gap-0.5">
-              <LandPlot className="w-3 h-3" />
-              {listing.landSize}m²
+            <span className="flex items-center gap-1.5">
+              <LandPlot className="w-4 h-4 text-stone-400" />
+              <span className="font-medium">{listing.landSize}m²</span>
             </span>
           )}
         </div>
 
         {/* Property type */}
-        <div className="mt-2 flex items-center gap-2">
-          <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+        <div className="mt-4 flex items-center gap-2">
+          <span className="text-xs bg-stone-100 text-stone-600 px-2.5 py-1 rounded-full font-medium">
             {listing.propertyType}
           </span>
           {listing.furnished && (
-            <span className="text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded">
+            <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full font-medium">
               Gemeubileerd
             </span>
           )}
